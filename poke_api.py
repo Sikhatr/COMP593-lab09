@@ -2,9 +2,12 @@ import requests
 
 POKEMON_SEARCH_URL = 'https://pokeapi.co/api/v2/pokemon/'
 
+
 def main():
-    abilities = get_pokemon_info('3')
+    abilities = get_pokemon_info('LUGIA')
+    print(abilities)
     pass
+
 
 def get_pokemon_info(search_term):
     """Get the abilities for the specified pokemon
@@ -19,9 +22,8 @@ def get_pokemon_info(search_term):
     # clean the search term
     search_term = str(search_term).strip().lower()
 
-    #creating clean url for the search term
+    # creating clean url for the search term
     CLEAN_POKEMON_SEARCH_URL = POKEMON_SEARCH_URL + search_term
-
 
     print(f'Getting information for {search_term}...', end='')
     resp_msg = requests.get(CLEAN_POKEMON_SEARCH_URL)
@@ -30,12 +32,15 @@ def get_pokemon_info(search_term):
     if resp_msg.ok:
         print('success')
         body_dict = resp_msg.json()
-        ability_portion = body_dict['abilities']
-        ability_list = [j['ability']['name'] for j in ability_portion]
-        return ability_list
+        # HEIGHT, WEIGHT, TYPE, STATS
+        # print(body_dict)
+        # ability_portion = body_dict['abilities']
+        # ability_list = [j['ability']['name'] for j in ability_portion]
+        return body_dict
     else:
         print("failure")
         print(f"respose code: {resp_msg.status_code} ({resp_msg.reason})")
+
 
 if __name__ == '__main__':
     main()
